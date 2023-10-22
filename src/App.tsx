@@ -1,56 +1,28 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// TODO: add Outlet
+import { Navigate, Outlet } from "react-router-dom";
 
 import './styles/global.scss';
 
-const App = () => {
+import Navbar from "./components/navbar/Navbar";
 
-  const Layout = () => {
-    return (
-      <>
-      
-      </>
-    )
-  }
-
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Layout />,
-      children: [
-        {
-          path: '/projects'
-          // element: <Projects />
-        },
-        {
-          path: '/team'
-          // element: <Team />
-        },
-        {
-          path: '/tasks'
-          // element: <Tasks />
-        },
-        {
-          path: '/notifications'
-          // element: <Notifications />
-        },
-        {
-          path: '/config'
-          // element: <Config />
-        },
-      ]
-    },
-    {
-      path: '/login',
-      // element: <Login />
-    },
-    {
-      path: '/signin'
-      // element: <Login />
-    }
-  ])
-
-  return <RouterProvider router={router} />;
+const useAuth = () => {
+  // TODO: Change w/ api  
+  const user = { isLogged: false };
+  return user && user.isLogged;
 }
 
-export default App
+const App = () => {
+  const isLogged = useAuth();
+  
+  return isLogged ? 
+    (
+      <div className="container">
+        <Navbar />
+        <main>
+          <Outlet />
+        </main>
+      </div>
+    ) : <Navigate to='/login' />
+};
+
+
+export default App;
