@@ -1,0 +1,24 @@
+.auth {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('login_bg.png');
+  background-size: contain;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: 'Poppins', sans-serif;
+
+  .auth-container {
+    width: 621px;
+    height: 579px;
+    border-radius: 10px;
+    background: linear-gradient(131deg, rgba(16, 24, 40, 0.40) 0%, rgba(71, 84, 103, 0.40) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
