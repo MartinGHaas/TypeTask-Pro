@@ -1,3 +1,28 @@
 .signIn {
-  background: red;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 60px;
+
+  $logo-width: 175px;
+  .logo {
+    margin-top: 60px;
+    width: $logo-width;
+    height: calc($logo-width * 0.65);
+  }
+
+  .singIn-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    label {
+      color: #FFF;
+      font-size: 36px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+  }
 }
