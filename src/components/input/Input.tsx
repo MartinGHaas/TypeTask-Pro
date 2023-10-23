@@ -13,10 +13,8 @@ type InputProps = {
 }
 
 const Input: FC<InputProps> = ({ label, id, placeholder, className, type }) => {
-  const InputClass = className ? className : '';
-
   return(
-    <div className={`input-container ${InputClass}`} >
+    <div className={`input-container ${className || ''}`} >
       {label && (
         <label htmlFor={id}>
           {label}

@@ -1,0 +1,23 @@
+.buttonLoginSocial {
+  width: 100%;
+
+  button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 4%;
+    cursor: pointer;
+    font-size: 20px;
+    color: rgba(0, 0, 0, .7);
+
+    padding: 7px 13px;
+
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, .5);
+    background: #fff;
+
+    img {
+      width: 40px;
+    }
+  }
+}

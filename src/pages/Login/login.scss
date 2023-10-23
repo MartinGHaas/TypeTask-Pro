@@ -6,7 +6,8 @@
   align-items: center;
   justify-content: center;
   background-image: url('login_bg.png');
-  background-size: cover;
+  background-size: contain;
+  background-position: center center;
   background-attachment: fixed;
   font-family: 'Poppins', sans-serif;
 
@@ -39,11 +40,32 @@
         align-items: center;
         justify-content: space-between;
         flex-direction: column;
-        gap: 16px;
+        gap: 10px;
 
         span {
           font-size: 14px;
           color: #fff;
+        }
+
+        .fb-button {
+
+          img {
+            width: 43px;
+          }
+        }
+      }
+
+      p {
+        margin-top: 10px;
+        color: #fff;
+        font-size: 14px;
+
+        a {
+          text-decoration: none;
+
+          span {
+            color: #818CF8;
+          }
         }
       }
     }
