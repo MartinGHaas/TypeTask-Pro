@@ -2,7 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import App from './App'
-import Login from './pages/Login/Login'
+import Login from './pages/login/Login'
+import Projects from './pages/projects/Projects'
+import Teams from './pages/teams/Teams'
+import Tasks from './pages/tasks/Tasks'
+import Notifications from './pages/notifications/Notifications'
+import Config from './pages/config/Config'
+import SignIn from './pages/signin/SignIn'
 
 const router = createBrowserRouter([
   {
@@ -10,24 +16,24 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: '/projects'
-        // element: <Projects />
+        path: '/projects',
+        element: <Projects />
       },
       {
-        path: '/team'
-        // element: <Team />
+        path: '/teams',
+        element: <Teams />
       },
       {
-        path: '/tasks'
-        // element: <Tasks />
+        path: '/tasks',
+        element: <Tasks />
       },
       {
-        path: '/notifications'
-        // element: <Notifications />
+        path: '/notifications',
+        element: <Notifications />
       },
       {
-        path: '/config'
-        // element: <Config />
+        path: '/config',
+        element: <Config />
       },
     ]
   },
@@ -36,8 +42,8 @@ const router = createBrowserRouter([
     element: <Login />
   },
   {
-    path: '/signin'
-    // element: <SignIn />
+    path: '/signin',
+    element: <SignIn />
   }
 ])
 

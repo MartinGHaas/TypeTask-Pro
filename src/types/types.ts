@@ -1,0 +1,1 @@
+export type HTMLInputTypes = 'text' | 'password' | 'checkbox' | 'radio' | 'number' | 'email' | 'url' | 'date' | 'color';
