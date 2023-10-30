@@ -1,19 +1,52 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useContext, ChangeEvent } from 'react';
 import AuthBackground from '../../components/authBackground/AuthBackground';
 import Input from '../../components/input/Input';
 import './signin.scss';
+import { UserContext } from '../../context/UserContext';
 
 const SignIn = () => {
+  const EMAIL: string = 'email';
+  const PASSWORD: string = 'password';
+  const USERNAME: string = 'username'
+  const inputValues: string[] = [EMAIL, PASSWORD, USERNAME];
 
-  const queryValues: string[] = ['name', 'age', 'email', 'password'];
-  const [queryIndex, setQueryIndex] = useState(0);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  
+  const { setUser } = useContext(UserContext);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [currentIndex]);
 
   const handleClick = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    setQueryIndex(n => n + 1);
+    // TODO: check input values
+
+    setCurrentIndex(n => n + 1);
+    if(currentIndex === 2) {
+      setUser(prevUser => ({...prevUser, isLogged: true}));
+
+      // TODO: register new user
+    }
   };
 
-  const queryValue = queryValues[queryIndex];
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, value: string) => {
+    switch(value){
+      case EMAIL:
+        setEmail(e.target.value);
+        break
+      case PASSWORD:
+        setPassword(e.target.value);
+        break;
+      case USERNAME:
+        setUsername(e.target.value);
+        break;
+    }
+  }
 
   return(
     <AuthBackground>
@@ -21,10 +54,26 @@ const SignIn = () => {
         <img src="logo.svg" alt="TypeTask Pro Logo" className='logo'/>
         <div className="form-container">
           <form>
-            <Input id={queryValue} placeholder={`enter your ${queryValue}`} label={queryValue} className='singIn-input'/>
-            <button onClick={handleClick}>
-              clica
-            </button>
+            {
+              inputValues.map((value, i) => (
+                i <= currentIndex &&
+                <div className={'auth-signin'} key={i}>
+                  <Input
+                    id={value}
+                    placeholder={`enter your ${value}`}
+                    label={value}
+                    type={value}
+                    inputRef={inputRef}
+                    value={value === EMAIL ? email : value === PASSWORD ? password : username}
+                    handleChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, value)}
+                  />
+
+                  <button onClick={handleClick} className={i === currentIndex ? '' : 'd-none'}>
+                    {currentIndex === inputValues.length - 1 ? 'finish' : 'continue'}
+                  </button>
+                </div>
+              ))
+            }
           </form>
         </div>
       </div>

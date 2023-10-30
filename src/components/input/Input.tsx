@@ -1,18 +1,20 @@
-import { FC } from 'react';
+import { ChangeEvent, FC, RefObject } from 'react';
 
 import './input.scss';
-
-import { HTMLInputTypes } from '../../types/types';
 
 type InputProps = {
   id: string;
   label?: string
   placeholder?: string;
   className?: string;
-  type?: HTMLInputTypes;
+  type?: string;
+  inputRef?: RefObject<HTMLInputElement> | null;
+  handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+  value?: string
 }
 
-const Input: FC<InputProps> = ({ label, id, placeholder, className, type }) => {
+const Input: FC<InputProps> = ({ label, id, placeholder, className, type, inputRef, handleChange, required = true, value }) => {
   return(
     <div className={`input-container ${className || ''}`} >
       {label && (
@@ -21,7 +23,14 @@ const Input: FC<InputProps> = ({ label, id, placeholder, className, type }) => {
         </label>
       )}
       
-      <input type={type || 'text'} placeholder={placeholder} id={id} />
+      <input
+        type={type || 'text'}
+        placeholder={placeholder}
+        id={id} ref={inputRef}
+        onChange={handleChange}
+        required={required}
+        value={value}
+      />
     </div>
   )
 }
