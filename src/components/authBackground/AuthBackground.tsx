@@ -1,11 +1,11 @@
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import './authBackground.scss';
 
 type AuthProps = {
   children: ReactNode;
 }
 
-const AuthBackground: FC<AuthProps> = ({ children }) => {
+const AuthBackground = ({ children }: AuthProps) => {
   return(
     <div className='auth'>
       <div className="auth-container">

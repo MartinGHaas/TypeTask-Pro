@@ -1,4 +1,4 @@
-import { Dispatch, FC, ReactNode, SetStateAction, createContext, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, createContext, useState } from "react";
 
 export type User = {
   isLogged: boolean;
@@ -22,7 +22,7 @@ type UserProviderProps = {
   children: ReactNode;
 };
 
-export const UserProvider: FC<UserProviderProps> = ({ children }) => {
+export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User>({
     isLogged: false
   });

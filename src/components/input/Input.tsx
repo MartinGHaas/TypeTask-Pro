@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, RefObject } from 'react';
+import { ChangeEvent, RefObject } from 'react';
 
 import './input.scss';
 
@@ -14,7 +14,7 @@ type InputProps = {
   value?: string
 }
 
-const Input: FC<InputProps> = ({ label, id, placeholder, className, type, inputRef, handleChange, required = true, value }) => {
+const Input = ({ label, id, placeholder, className, type, inputRef, handleChange, required = true, value }: InputProps) => {
   return(
     <div className={`input-container ${className || ''}`} >
       {label && (

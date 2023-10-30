@@ -1,7 +1,5 @@
 import './buttonLoginSocial.scss';
 
-import { FC } from 'react';
-
 type ButtonProps = {
   text: string;
   img?: {
@@ -12,7 +10,7 @@ type ButtonProps = {
   handleClick?: () => void;
 }
 
-const ButtonLoginSocial: FC<ButtonProps> = ({ text, img, className, handleClick }) => {
+const ButtonLoginSocial = ({ text, img, className, handleClick }: ButtonProps) => {
   return(
     <div className={`buttonLoginSocial ${className || ''}`}>
       <button onClick={handleClick}>
