@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect, useContext, ChangeEvent } from 'react';
 import AuthBackground from '../../components/authBackground/AuthBackground';
 import Input from '../../components/input/Input';
-import './signin.scss';
+import './signup.scss';
 import { UserContext } from '../../context/UserContext';
 
-const SignIn = () => {
+const SignUp = () => {
   const EMAIL: string = 'email';
   const PASSWORD: string = 'password';
   const USERNAME: string = 'username'
@@ -50,14 +50,14 @@ const SignIn = () => {
 
   return(
     <AuthBackground>
-      <div className="signIn">
+      <div className="signUp">
         <img src="logo.svg" alt="TypeTask Pro Logo" className='logo'/>
         <div className="form-container">
           <form>
             {
               inputValues.map((value, i) => (
                 i <= currentIndex &&
-                <div className={'auth-signin'} key={i}>
+                <div className={'auth-signup'} key={i}>
                   <Input
                     id={value}
                     placeholder={`enter your ${value}`}
@@ -81,4 +81,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn;
+export default SignUp;

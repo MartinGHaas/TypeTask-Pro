@@ -8,8 +8,8 @@ import Teams from './pages/teams/Teams';
 import Tasks from './pages/tasks/Tasks';
 import Notifications from './pages/notifications/Notifications';
 import Config from './pages/config/Config';
-import SignIn from './pages/signin/SignIn';
 import { UserProvider } from './context/UserContext';
+import SignUp from './pages/signup/SignUp';
 
 const router = createBrowserRouter([
   {
@@ -43,8 +43,8 @@ const router = createBrowserRouter([
     element: <Login />
   },
   {
-    path: '/signin',
-    element: <SignIn />
+    path: '/signup',
+    element: <SignUp />
   }
 ]);
 
