@@ -14,7 +14,7 @@ type InputProps = {
   value?: string
 }
 
-const Input = ({ label, id, placeholder, className, type, inputRef, handleChange, required = true, value }: InputProps) => {
+const Input = ({ label, id, placeholder, className, type, inputRef, handleChange, required, value }: InputProps) => {
   return(
     <div className={`input-container ${className || ''}`} >
       {label && (
