@@ -21,7 +21,7 @@ const Login = () => {
           <ButtonLoginSocial text='Google Account' img={{src: 'GoogleLogo.svg'}}/>
           <ButtonLoginSocial text='Facebook Account' img={{src: 'FacebookLogo.svg'}} className='fb-button'/>
         </form>
-        <p>don't have an account? <Link to='/signin'><span>sign in</span></Link></p>
+        <p>don't have an account? <Link to='/signup'><span>sign in</span></Link></p>
       </div>
     </AuthBackground>
   )

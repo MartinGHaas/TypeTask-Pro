@@ -5,47 +5,65 @@ import './signup.scss';
 import { UserContext } from '../../context/UserContext';
 
 const SignUp = () => {
-  const EMAIL: string = 'email';
-  const PASSWORD: string = 'password';
-  const USERNAME: string = 'username'
-  const inputValues: string[] = [EMAIL, PASSWORD, USERNAME];
+  interface InputValues {
+    [key: string]: string;
+  }
+  
+  interface InputValidity {
+    [key: string]: boolean;
+  }
+
+  const inputValues = [
+    { id: 'email', validator: (value: string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value) },
+    { id: 'password', validator: (value: string) => value.length >= 6 },
+    { id: 'username', validator: (value: string) => value.length >= 3 }
+  ];
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   
   const { setUser } = useContext(UserContext);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+
+  const [values, setValues] = useState<InputValues>({ email: '', password: '', username: '' });
+  const [validity, setValidity] = useState<InputValidity>({ email: false, password: false, username: false });
+  const [areInputsValid, setInputsValid] = useState(false);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, [currentIndex]);
 
+  useEffect(() => {
+    const newValidity = {...validity};
+    
+    for(let i = 0; i <= currentIndex; i++) {
+      const input = inputValues[i];
+      const isValid = input.validator(values[input.id]);
+      newValidity[input.id] = isValid;
+    }
+
+    setValidity(newValidity);
+
+    const areAllInputsValid = inputValues.slice(0, currentIndex + 1).every((input) => newValidity[input.id]);
+    
+    setInputsValid(areAllInputsValid);
+
+  }, [values, currentIndex]);
+
   const handleClick = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    // TODO: check input values
 
-    setCurrentIndex(n => n + 1);
-    if(currentIndex === 2) {
-      setUser(prevUser => ({...prevUser, isLogged: true}));
-
-      // TODO: register new user
+    if(areInputsValid){
+      setCurrentIndex(n => n + 1);
+      if(currentIndex > inputValues.length - 1) {
+        setUser(prevUser => ({...prevUser, isLogged: true}));
+  
+        // TODO: register new user
+      }
     }
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, value: string) => {
-    switch(value){
-      case EMAIL:
-        setEmail(e.target.value);
-        break
-      case PASSWORD:
-        setPassword(e.target.value);
-        break;
-      case USERNAME:
-        setUsername(e.target.value);
-        break;
-    }
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, id: string) => {
+    setValues(prevValues => ({...prevValues, [id]: e.target.value}))
   }
 
   return(
@@ -59,16 +77,16 @@ const SignUp = () => {
                 i <= currentIndex &&
                 <div className={'auth-signup'} key={i}>
                   <Input
-                    id={value}
-                    placeholder={`enter your ${value}`}
-                    label={value}
-                    type={value}
+                    id={value.id}
+                    placeholder={`enter your ${value.id}`}
+                    label={value.id}
+                    type={value.id}
                     inputRef={inputRef}
-                    value={value === EMAIL ? email : value === PASSWORD ? password : username}
-                    handleChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, value)}
+                    value={values[value.id]}
+                    handleChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, value.id)}
                   />
 
-                  <button onClick={handleClick} className={i === currentIndex ? '' : 'd-none'}>
+                  <button onClick={handleClick} className={`${i !== currentIndex ? 'd-none' : areInputsValid ? 'isAuth' : ''}`}>
                     {currentIndex === inputValues.length - 1 ? 'finish' : 'continue'}
                   </button>
                 </div>
