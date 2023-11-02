@@ -8,7 +8,7 @@ const SignUp = () => {
   interface InputValues {
     [key: string]: string;
   }
-  
+
   interface InputValidity {
     [key: string]: boolean;
   }
@@ -20,22 +20,38 @@ const SignUp = () => {
   ];
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-  
+
   const { setUser } = useContext(UserContext);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [values, setValues] = useState<InputValues>({ email: '', password: '', username: '' });
   const [validity, setValidity] = useState<InputValidity>({ email: false, password: false, username: false });
-  const [areInputsValid, setInputsValid] = useState(false);
+  const [areInputsValid, setInputsValid] = useState<boolean>(false);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
+
+
+  let errMsg;
+  switch (inputValues[currentIndex].id) {
+    case 'email':
+      errMsg = 'you must provide an existing email';
+      break;
+    case 'password':
+      errMsg = 'your password must include at least 6 digits';
+      break;
+    case 'username':
+      errMsg = 'your username must include at least 3 digits';
+      break;
+  }
 
   useEffect(() => {
     inputRef.current?.focus();
+    setHasAttemptedSubmit(false);
   }, [currentIndex]);
 
   useEffect(() => {
-    const newValidity = {...validity};
-    
-    for(let i = 0; i <= currentIndex; i++) {
+    const newValidity = { ...validity };
+
+    for (let i = 0; i <= currentIndex; i++) {
       const input = inputValues[i];
       const isValid = input.validator(values[input.id]);
       newValidity[input.id] = isValid;
@@ -44,7 +60,7 @@ const SignUp = () => {
     setValidity(newValidity);
 
     const areAllInputsValid = inputValues.slice(0, currentIndex + 1).every((input) => newValidity[input.id]);
-    
+
     setInputsValid(areAllInputsValid);
 
   }, [values, currentIndex]);
@@ -52,28 +68,30 @@ const SignUp = () => {
   const handleClick = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
 
-    if(areInputsValid){
+    setHasAttemptedSubmit(true);
+
+    if (areInputsValid) {
       setCurrentIndex(n => n + 1);
-      if(currentIndex > inputValues.length - 1) {
-        setUser(prevUser => ({...prevUser, isLogged: true}));
-  
+      if (currentIndex > inputValues.length - 1) {
+        setUser(prevUser => ({ ...prevUser, isLogged: true }));
+
         // TODO: register new user
       }
     }
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, id: string) => {
-    setValues(prevValues => ({...prevValues, [id]: e.target.value}))
+    setValues(prevValues => ({ ...prevValues, [id]: e.target.value }))
   }
 
-  return(
+  return (
     <AuthBackground>
       <div className="signUp">
-        <img src="logo.svg" alt="TypeTask Pro Logo" className='logo'/>
+        <img src="logo.svg" alt="TypeTask Pro Logo" className='logo' />
         <div className="form-container">
           <form>
-            {
-              inputValues.map((value, i) => (
+            {inputValues.map(
+              (value, i) => (
                 i <= currentIndex &&
                 <div className={'auth-signup'} key={i}>
                   <Input
@@ -93,6 +111,8 @@ const SignUp = () => {
               ))
             }
           </form>
+
+          {hasAttemptedSubmit && !areInputsValid && <span>{errMsg}</span>}
         </div>
       </div>
     </AuthBackground>
