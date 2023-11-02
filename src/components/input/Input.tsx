@@ -39,6 +39,7 @@ type InputProps = {
 
   placeholder?: string;
 
+  /** note that 'className' is NOT refernced to the 'input html tag', but the 'div' that contains the 'input' and the 'label' */
   className?: string;
 
   inputRef?: RefObject<HTMLInputElement> | null;
@@ -46,7 +47,16 @@ type InputProps = {
 
 /**
  * Reusable Input Component.
- * @param {InputProps} props 
+ * @param {InputProps} props - Component Props.
+ * @param {string} props.id - Input ID.
+ * @param {string} [props.label] - Optional Input Label.
+ * @param {string} [props.type] - Optional Input Type. (default: "text")
+ * @param {string} [props.value] - Inputs value.
+ * @param {string} [props.placeholder] - Optional Inputs Placeholder.
+ * @param {string} [props.className] - Optional CSS class.
+ * @param {function} [props.handleChange] - Callback Function to manipulate inputs change event.
+ * @param {boolean} [props.required] - Define if Input is required.
+ * @param {RefObject<HTMLInputElement> | null} [props.inputRef] - Optional ref for the Input tag.
  * @returns {JSX.Element} Reusable Input Component.
  */
 const Input = ({ label, id, placeholder, className, type, inputRef, handleChange, required, value }: InputProps): JSX.Element => {
