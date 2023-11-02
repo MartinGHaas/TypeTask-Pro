@@ -28,20 +28,7 @@ const SignUp = () => {
   const [validity, setValidity] = useState<InputValidity>({ email: false, password: false, username: false });
   const [areInputsValid, setInputsValid] = useState<boolean>(false);
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
-
-
-  let errMsg;
-  switch (inputValues[currentIndex].id) {
-    case 'email':
-      errMsg = 'you must provide an existing email';
-      break;
-    case 'password':
-      errMsg = 'your password must include at least 6 digits';
-      break;
-    case 'username':
-      errMsg = 'your username must include at least 3 digits';
-      break;
-  }
+  const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -55,6 +42,20 @@ const SignUp = () => {
       const input = inputValues[i];
       const isValid = input.validator(values[input.id]);
       newValidity[input.id] = isValid;
+
+      if (!isValid) {
+        switch (input.id) {
+          case 'email':
+            setErrMsg('you must provide an existing email');
+            break;
+          case 'password':
+            setErrMsg('your password must include at least 6 digits');
+            break;
+          case 'username':
+            setErrMsg('your username must include at least 3 digits');
+            break;
+        }
+      }
     }
 
     setValidity(newValidity);
