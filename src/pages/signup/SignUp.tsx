@@ -4,6 +4,10 @@ import Input from '../../components/input/Input';
 import './signup.scss';
 import { UserContext } from '../../context/UserContext';
 
+/**
+ * TypeTask's Sign Up page
+ * @returns {JSX.Element}
+ */
 const SignUp = () => {
   interface InputValues {
     [key: string]: string;
@@ -30,11 +34,27 @@ const SignUp = () => {
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
+  /**
+   * Focus the last created input for better user experience. 
+   * Sets'hasAttemptedSubmit' to false to reset its state for a new Input.
+   */
   useEffect(() => {
     inputRef.current?.focus();
     setHasAttemptedSubmit(false);
   }, [currentIndex]);
 
+  /**
+   * Validates the inputs values by checking its value
+   * with its validator function. By validating, it changes
+   * the validity, areInputsValid and errMsg states.
+   * It only toggles when 'values' or 'currentIndex'
+   * states change.
+   * 
+   * @param {InputValidity} newValidity clones validity state to manipulate validity
+   * in real time.
+   * 
+   * @param {boolean} areAllInputsValid checks if all Inputs are valid
+   */
   useEffect(() => {
     const newValidity = { ...validity };
 
@@ -66,6 +86,17 @@ const SignUp = () => {
 
   }, [values, currentIndex]);
 
+  /**
+   * Handle the 'continue/finish' button click action,
+   * changing the state of HasAttemptedSubmit and
+   * checking the validity of the Inputs. If true
+   * it procceeds w/ the form, if not, it messages the
+   * user with the errMsg.
+   * 
+   * @param {React.FormEvent<HTMLElement>} e button's click event.
+   * 
+   * @todo implement function to create a new User
+   */
   const handleClick = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
 
@@ -75,12 +106,17 @@ const SignUp = () => {
       setCurrentIndex(n => n + 1);
       if (currentIndex > inputValues.length - 1) {
         setUser(prevUser => ({ ...prevUser, isLogged: true }));
-
-        // TODO: register new user
       }
     }
   };
 
+  /**
+   * Handle w/ Input's change action by
+   * setting the values state.
+   * 
+   * @param {ChangeEvent<HTMLInputElement>} e Input's change event.
+   * @param {string} id Input's id for setting values state.
+   */
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, id: string) => {
     setValues(prevValues => ({ ...prevValues, [id]: e.target.value }))
   }
