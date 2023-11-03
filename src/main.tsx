@@ -10,6 +10,7 @@ import Notifications from './pages/notifications/Notifications';
 import Config from './pages/config/Config';
 import { UserProvider } from './context/UserContext';
 import SignUp from './pages/signup/SignUp';
+import Docs from './pages/docs/Docs';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <SignUp />
+  },
+  {
+    path: '/docs',
+    element: <Docs />
   }
 ]);
 

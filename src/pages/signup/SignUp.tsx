@@ -3,12 +3,15 @@ import AuthBackground from '../../components/authBackground/AuthBackground';
 import Input from '../../components/input/Input';
 import './signup.scss';
 import { UserContext } from '../../context/UserContext';
+import Modal from '../../components/modal/Modal';
+import Button from '../../components/button/Button';
+import { Link } from 'react-router-dom';
 
 /**
  * TypeTask's Sign Up page
  * @returns {JSX.Element}
  */
-const SignUp = () => {
+const SignUp = (): JSX.Element => {
   interface InputValues {
     [key: string]: string;
   }
@@ -31,8 +34,9 @@ const SignUp = () => {
   const [values, setValues] = useState<InputValues>({ email: '', password: '', username: '' });
   const [validity, setValidity] = useState<InputValidity>({ email: false, password: false, username: false });
   const [areInputsValid, setInputsValid] = useState<boolean>(false);
-  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
-  const [errMsg, setErrMsg] = useState('');
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState<boolean>(false);
+  const [errMsg, setErrMsg] = useState<string>('');
+  const [isSubmit, setSubmit] = useState<boolean>(false);
 
   /**
    * Focus the last created input for better user experience. 
@@ -103,8 +107,13 @@ const SignUp = () => {
     setHasAttemptedSubmit(true);
 
     if (areInputsValid) {
-      setCurrentIndex(n => n + 1);
-      if (currentIndex > inputValues.length - 1) {
+
+      if (currentIndex < inputValues.length - 1) {
+        setCurrentIndex(n => n + 1);
+      }
+
+      if (currentIndex === inputValues.length - 1) {
+        setSubmit(true);
         setUser(prevUser => ({ ...prevUser, isLogged: true }));
       }
     }
@@ -141,17 +150,43 @@ const SignUp = () => {
                     handleChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, value.id)}
                   />
 
-                  <button onClick={handleClick} className={`${i !== currentIndex ? 'd-none' : areInputsValid ? 'isAuth' : ''}`}>
+                  <Button
+                    handleClick={handleClick}
+                    className={`check-button ${i === currentIndex ? '' : 'd-none'}`}
+                    isFilled={areInputsValid}
+                    animated={areInputsValid}
+                  >
                     {currentIndex === inputValues.length - 1 ? 'finish' : 'continue'}
-                  </button>
+                  </Button>
                 </div>
               ))
             }
           </form>
-
           {hasAttemptedSubmit && !areInputsValid && <span>{errMsg}</span>}
         </div>
       </div>
+
+      {isSubmit &&
+        <Modal className='verification-modal'>
+          <h1>Thank You!</h1>
+          <p>We've sent you a verification email!</p>
+
+          <div className="modal-button-container">
+            <Link to='/login' style={{ textDecoration: 'none' }}>
+              <Button
+                isFilled
+                animated
+              >
+                Go back to Login
+              </Button>
+            </Link>
+
+            <Link to='/docs' style={{ textDecoration: 'none' }}>
+              <Button animated >See the docs</Button>
+            </Link>
+          </div>
+        </Modal>
+      }
     </AuthBackground>
   )
 }

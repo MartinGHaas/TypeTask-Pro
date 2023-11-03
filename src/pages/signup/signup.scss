@@ -39,27 +39,12 @@
         padding: 7px 15px;
       }
 
-      button {
+      .check-button{
         width: 40%;
-        height: 41px;
 
-        transform: translateY(29px);
-
-        border-radius: 5px;
-        font-family: Poppins;
-        font-size: 16px;
-        cursor: pointer;
-        border: 2px solid rgba(129, 140, 248, 1);
-        backdrop-filter: blur(2px);
-        background: transparent;
-        color: rgba(129, 140, 248, 1);
-        transition: .3s;
-      }
-
-      .isAuth {
-        background: linear-gradient(91deg, rgba(129, 140, 248, 0.50) 0%, rgba(208, 213, 255, 0.50) 100%);
-        color: #fff;
-        border: 1px solid rgba(0, 0, 0, 0.5);
+        button {
+          transform: translateY(29px);
+        }
       }
     }
   }
@@ -67,5 +52,15 @@
   span {
     font-size: 14px;
     color: rgba(129, 140, 248, 1);
+  }
+}
+
+.verification-modal {
+  line-height: 25px;
+
+  .modal-button-container {
+    display: flex;
+    gap: 25px;
+    margin-top: 20px;
   }
 }
