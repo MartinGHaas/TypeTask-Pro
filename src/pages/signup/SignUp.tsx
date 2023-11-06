@@ -6,6 +6,7 @@ import { UserContext } from '../../context/UserContext';
 import Modal from '../../components/modal/Modal';
 import Button from '../../components/button/Button';
 import { Link } from 'react-router-dom';
+import { validateEmail, validatePassword, validateUsername } from '../../utils/validators';
 
 /**
  * TypeTask's Sign Up page
@@ -21,9 +22,9 @@ const SignUp = (): JSX.Element => {
   }
 
   const inputValues = [
-    { id: 'email', validator: (value: string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value) },
-    { id: 'password', validator: (value: string) => value.length >= 6 },
-    { id: 'username', validator: (value: string) => value.length >= 3 }
+    { id: 'email', validator: (value: string) => validateEmail(value) },
+    { id: 'password', validator: (value: string) => validatePassword(value) },
+    { id: 'username', validator: (value: string) => validateUsername(value) }
   ];
 
   const inputRef = useRef<HTMLInputElement | null>(null);
