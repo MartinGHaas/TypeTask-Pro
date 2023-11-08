@@ -40,11 +40,9 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
 
   useEffect(() => {
     const userCookie = Cookies.get('userJWT');
-    console.log(userCookie);
 
     if (userCookie) {
       const decodedUser = JSON.parse(atob(userCookie.split('.')[1]));
-      console.log(decodedUser);
       setUser(decodedUser);
     }
 

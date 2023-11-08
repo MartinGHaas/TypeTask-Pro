@@ -1,3 +1,22 @@
-nav {
-  
+.navbar {
+  width: 98px;
+  height: 95%;
+  margin: 1rem;
+  border-radius: 15px;
+  background: linear-gradient(179deg, rgba(16, 24, 40, .3) 0%, rgba(71, 84, 103, .3) 100%);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 50px;
+
+  .logo-icon {
+    margin-top: 22px;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 70%;
+  }
 }
