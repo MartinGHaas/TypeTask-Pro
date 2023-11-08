@@ -20,7 +20,7 @@ const defaultContext = {
   isLoading: true,
 } as IUserContext;
 
-/** Provides User Context for other Components to use. */
+/** Provides User Context for other Components. */
 export const UserContext = createContext(defaultContext);
 
 type UserProviderProps = {
