@@ -6,7 +6,7 @@ import Input from '../../components/input/Input';
 import './login.scss';
 import AuthBackground from '../../components/authBackground/AuthBackground';
 import Button from '../../components/button/Button';
-import { validateEmail, validatePassword } from '../../utils/validators';
+import { validateEmail, validatePassword } from '../../utils/validation/inputValidators';
 
 const FIELD_KEYS = {
   EMAIL: 'email',

@@ -1,12 +1,11 @@
-import { useState, useRef, useEffect, useContext, ChangeEvent } from 'react';
+import { useState, useRef, useEffect, ChangeEvent } from 'react';
 import AuthBackground from '../../components/authBackground/AuthBackground';
 import Input from '../../components/input/Input';
 import './signup.scss';
-import { UserContext } from '../../context/UserContext';
 import Modal from '../../components/modal/Modal';
 import Button from '../../components/button/Button';
 import { Link } from 'react-router-dom';
-import { validateEmail, validatePassword, validateUsername } from '../../utils/validators';
+import { validateEmail, validatePassword, validateUsername } from '../../utils/validation/inputValidators';
 
 /**
  * TypeTask's Sign Up page
@@ -29,7 +28,6 @@ const SignUp = (): JSX.Element => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { setUser } = useContext(UserContext);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [values, setValues] = useState<InputValues>({ email: '', password: '', username: '' });
@@ -115,7 +113,6 @@ const SignUp = (): JSX.Element => {
 
       if (currentIndex === inputValues.length - 1) {
         setSubmit(true);
-        setUser(prevUser => ({ ...prevUser, isLogged: true }));
       }
     }
   };
