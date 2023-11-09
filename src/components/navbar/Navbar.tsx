@@ -1,10 +1,8 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import NavItem from '../navItem/NavItem';
 import './navbar.scss';
 
 const Navbar = () => {
-  const location = useLocation();
-
   const pages = [
     { path: '/', img: 'home-icon.svg' },
     { path: '/projects', img: 'projects-icon.svg' },
@@ -21,9 +19,9 @@ const Navbar = () => {
       </Link>
       <nav>
         {pages.map(page => (
-          <Link to={page.path}>
-            <NavItem alt='' src={page.img} active={location.pathname === page.path} />
-          </Link>
+          <NavLink to={page.path} className={({ isActive }) => isActive ? 'active-item' : ''} caseSensitive>
+            <NavItem alt='' src={page.img} />
+          </NavLink>
         ))}
       </nav>
     </div>
