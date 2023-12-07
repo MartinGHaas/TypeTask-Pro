@@ -7,6 +7,7 @@ import Navbar from "./components/navbar/Navbar";
 
 import { useContext } from 'react';
 import { UserContext } from "./context/UserContext";
+import Info from "./components/info/Info";
 
 const App = () => {
 
@@ -24,6 +25,7 @@ const App = () => {
           <main>
             <Outlet />
           </main>
+          <Info />
         </div>
         : <Navigate to='/login' />
       }

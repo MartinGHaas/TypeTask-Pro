@@ -11,12 +11,17 @@ import Config from './pages/config/Config';
 import { UserProvider } from './context/UserContext';
 import SignUp from './pages/signup/SignUp';
 import Docs from './pages/docs/Docs';
+import Home from './pages/home/Home';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
+      {
+        path: '/',
+        element: <Home />
+      },
       {
         path: '/projects',
         element: <Projects />

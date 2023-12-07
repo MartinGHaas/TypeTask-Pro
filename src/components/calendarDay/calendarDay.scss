@@ -1,0 +1,34 @@
+.calendarDay {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  gap: 5px;
+
+  .activeDate {
+    background: #818CF8;
+  }
+
+  .weekDay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(226, 232, 240, .5);
+    text-transform: capitalize;
+  }
+
+  .weekDate {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+  }
+
+
+}
