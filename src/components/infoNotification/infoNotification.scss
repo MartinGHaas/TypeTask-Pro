@@ -1,0 +1,27 @@
+.infoNotification-containers {
+  margin-top: 15%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .nextNotification {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .notification-ico {
+      width: 33%;
+    }
+    .notification-data {
+
+      .notification-hour {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './info.scss';
 import Calendar from '../calendar/Calendar';
 import ArrowButton from '../arrowButton/ArrowButton';
+import InfoNotification from '../infoNotification/InfoNotification';
 
 const Info = () => {
   const [date, setDate] = useState(new Date());
@@ -40,7 +41,10 @@ const Info = () => {
               <h1>Today's Schedule</h1>
               <span>see your upcoming activities</span>
             </div>
+          </div>
+          <div className="bottom-content">
             <Calendar />
+            <InfoNotification />
           </div>
         </div>
       </div>
