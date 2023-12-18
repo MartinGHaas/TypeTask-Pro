@@ -7,6 +7,9 @@ import './login.scss';
 import AuthBackground from '../../components/authBackground/AuthBackground';
 import Button from '../../components/button/Button';
 import { validateEmail, validatePassword } from '../../utils/validation/inputValidators';
+import ProtectedComponent from '../../components/protectedComponent/protectedComponent';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
 
 const FIELD_KEYS = {
   EMAIL: 'email',
@@ -14,6 +17,7 @@ const FIELD_KEYS = {
 };
 
 const Login = () => {
+  const user = useSelector((state: RootState) => state.user);
   const [values, setValues] = useState({ [FIELD_KEYS.EMAIL]: '', [FIELD_KEYS.PASSWORD]: '' });
   const [validity, setValidity] = useState({ [FIELD_KEYS.EMAIL]: false, [FIELD_KEYS.PASSWORD]: false });
   const [areValid, setValid] = useState(false);
@@ -59,45 +63,47 @@ const Login = () => {
   }
 
   return (
-    <AuthBackground>
-      <div className="form-container">
-        <img src="logo.svg" alt="logo" className='logo' />
-        <form onSubmit={handleSubmit}>
-          <Input
-            id='email'
-            type='email'
-            placeholder='enter your e-mail'
-            label='E-mail'
-            handleChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'email')}
-          />
+    <ProtectedComponent showCase={user.id !== ''}>
+      <AuthBackground>
+        <div className="form-container">
+          <img src="logo.svg" alt="logo" className='logo' />
+          <form onSubmit={handleSubmit}>
+            <Input
+              id='email'
+              type='email'
+              placeholder='enter your e-mail'
+              label='E-mail'
+              handleChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'email')}
+            />
 
-          {!hasEmail &&
-            <div className={`form-container`}>
-              <span>or sign up with</span>
-              <ButtonLoginSocial text='Google Account' img={{ src: 'GoogleLogo.svg' }} />
-              <ButtonLoginSocial text='Facebook Account' img={{ src: 'FacebookLogo.svg' }} className='fb-button' />
-            </div>
-          }
+            {!hasEmail &&
+              <div className={`form-container`}>
+                <span>or sign up with</span>
+                <ButtonLoginSocial text='Google Account' img={{ src: 'GoogleLogo.svg' }} />
+                <ButtonLoginSocial text='Facebook Account' img={{ src: 'FacebookLogo.svg' }} className='fb-button' />
+              </div>
+            }
 
-          {hasEmail &&
-            <div className={`form-container`}>
-              <Input
-                id='password'
-                label='Password'
-                placeholder='enter your password'
-                type='password'
-                handleChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'password')}
-              />
-              <Button isFilled={areValid} animated={areValid}>
-                Log In
-              </Button>
-            </div>
-          }
+            {hasEmail &&
+              <div className={`form-container`}>
+                <Input
+                  id='password'
+                  label='Password'
+                  placeholder='enter your password'
+                  type='password'
+                  handleChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'password')}
+                />
+                <Button isFilled={areValid} animated={areValid}>
+                  Log In
+                </Button>
+              </div>
+            }
 
-        </form>
-        <p>don't have an account? <Link to='/signup'><span>sign in</span></Link></p>
-      </div>
-    </AuthBackground>
+          </form>
+          <p>don't have an account? <Link to='/signup'><span>sign in</span></Link></p>
+        </div>
+      </AuthBackground>
+    </ProtectedComponent>
   )
 }
 

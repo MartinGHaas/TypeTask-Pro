@@ -6,6 +6,9 @@ import Modal from '../../components/modal/Modal';
 import Button from '../../components/button/Button';
 import { Link } from 'react-router-dom';
 import { validateEmail, validatePassword, validateUsername } from '../../utils/validation/inputValidators';
+import ProtectedComponent from '../../components/protectedComponent/protectedComponent';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
 
 /**
  * TypeTask's Sign Up page
@@ -30,6 +33,7 @@ const SignUp = (): JSX.Element => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const user = useSelector((state: RootState) => state.user);
   const [values, setValues] = useState<InputValues>({ email: '', password: '', username: '' });
   const [validity, setValidity] = useState<InputValidity>({ email: false, password: false, username: false });
   const [areInputsValid, setInputsValid] = useState<boolean>(false);
@@ -129,63 +133,65 @@ const SignUp = (): JSX.Element => {
   }
 
   return (
-    <AuthBackground>
-      <div className="signUp">
-        <img src="logo.svg" alt="TypeTask Pro Logo" className='logo' />
-        <div className="form-container">
-          <form>
-            {inputValues.map(
-              (value, i) => (
-                i <= currentIndex &&
-                <div className={'auth-signup'} key={i}>
-                  <Input
-                    id={value.id}
-                    placeholder={`enter your ${value.id}`}
-                    label={value.id}
-                    type={value.id}
-                    inputRef={inputRef}
-                    value={values[value.id]}
-                    handleChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, value.id)}
-                  />
+    <ProtectedComponent showCase={user.id !== ''}>
+      <AuthBackground>
+        <div className="signUp">
+          <img src="logo.svg" alt="TypeTask Pro Logo" className='logo' />
+          <div className="form-container">
+            <form>
+              {inputValues.map(
+                (value, i) => (
+                  i <= currentIndex &&
+                  <div className={'auth-signup'} key={i}>
+                    <Input
+                      id={value.id}
+                      placeholder={`enter your ${value.id}`}
+                      label={value.id}
+                      type={value.id}
+                      inputRef={inputRef}
+                      value={values[value.id]}
+                      handleChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e, value.id)}
+                    />
 
-                  <Button
-                    handleClick={handleClick}
-                    className={`check-button ${i === currentIndex ? '' : 'd-none'}`}
-                    isFilled={areInputsValid}
-                    animated={areInputsValid}
-                  >
-                    {currentIndex === inputValues.length - 1 ? 'finish' : 'continue'}
-                  </Button>
-                </div>
-              ))
-            }
-          </form>
-          {hasAttemptedSubmit && !areInputsValid && <span>{errMsg}</span>}
-        </div>
-      </div>
-
-      {isSubmit &&
-        <Modal className='verification-modal'>
-          <h1>Thank You!</h1>
-          <p>We've sent you a verification email!</p>
-
-          <div className="modal-button-container">
-            <Link to='/login' style={{ textDecoration: 'none' }}>
-              <Button
-                isFilled
-                animated
-              >
-                Go back to Login
-              </Button>
-            </Link>
-
-            <Link to='/docs' style={{ textDecoration: 'none' }}>
-              <Button animated >See the docs</Button>
-            </Link>
+                    <Button
+                      handleClick={handleClick}
+                      className={`check-button ${i === currentIndex ? '' : 'd-none'}`}
+                      isFilled={areInputsValid}
+                      animated={areInputsValid}
+                    >
+                      {currentIndex === inputValues.length - 1 ? 'finish' : 'continue'}
+                    </Button>
+                  </div>
+                ))
+              }
+            </form>
+            {hasAttemptedSubmit && !areInputsValid && <span>{errMsg}</span>}
           </div>
-        </Modal>
-      }
-    </AuthBackground>
+        </div>
+
+        {isSubmit &&
+          <Modal className='verification-modal'>
+            <h1>Thank You!</h1>
+            <p>We've sent you a verification email!</p>
+
+            <div className="modal-button-container">
+              <Link to='/login' style={{ textDecoration: 'none' }}>
+                <Button
+                  isFilled
+                  animated
+                >
+                  Go back to Login
+                </Button>
+              </Link>
+
+              <Link to='/docs' style={{ textDecoration: 'none' }}>
+                <Button animated >See the docs</Button>
+              </Link>
+            </div>
+          </Modal>
+        }
+      </AuthBackground>
+    </ProtectedComponent>
   )
 }
 

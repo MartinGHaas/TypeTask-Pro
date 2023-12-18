@@ -13,4 +13,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  main {
+    flex-grow: 1;
+    height: 95%;
+    padding-right: 50px;
+  }
 }

@@ -4,14 +4,28 @@ import './styles/root.scss';
 import './styles/global.scss';
 
 import Navbar from "./components/navbar/Navbar";
-
-import { useContext } from 'react';
-import { UserContext } from "./context/UserContext";
 import Info from "./components/info/Info";
 
-const App = () => {
+import Cookies from 'js-cookie';
 
-  const { user, isLoading } = useContext(UserContext);
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./state/store";
+import { useEffect, useState } from "react";
+import { setUser } from "./state/user/userSlice";
+
+const App = () => {
+  const [isLoading, setLoading] = useState(true);
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const userJWT = Cookies.get('userJWT');
+    if (userJWT) {
+      const decodedUser = JSON.parse(atob(userJWT.split('.')[1]));
+      dispatch(setUser(decodedUser))
+    }
+    setLoading(false);
+  }, []);
 
   if (isLoading) {
     return null;
@@ -19,7 +33,7 @@ const App = () => {
 
   return (
     <>
-      {user ?
+      {user && user.id !== '' ?
         <div className="page-container">
           <Navbar />
           <main>
