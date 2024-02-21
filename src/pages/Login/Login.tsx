@@ -1,106 +1,137 @@
-import { ChangeEvent, useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+// Components
+import ProtectedComponent from '@/components/protectedComponent/ProtectedComponent';
+import Button from '@/components/button/Button';
+import AuthBackground from '@/components/authBackground/AuthBackground';
+import Input from '@/components/input/Input';
+import ButtonLoginSocial from '@/components/buttonLoginSocial/ButtonLoginSocial';
 
-import ButtonLoginSocial from '../../components/buttonLoginSocial/ButtonLoginSocial';
-import Input from '../../components/input/Input';
+// CSS Style
 import './login.scss';
-import AuthBackground from '../../components/authBackground/AuthBackground';
-import Button from '../../components/button/Button';
-import { validateEmail, validatePassword } from '../../utils/validation/inputValidators';
-import ProtectedComponent from '../../components/protectedComponent/protectedComponent';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../state/store';
 
-const FIELD_KEYS = {
-  EMAIL: 'email',
-  PASSWORD: 'password',
-};
+// Libs
+import useCookiesTokenValidation from '@/libs/authValidation/useCookiesTokenValidation';
+import { useEffect } from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+// Zod Schemas
+import { loginSchema } from '@/schemas/zodSchemas';
+
+// Types
+import { LoginFields } from '@/@types/schemasTypes';
 
 const Login = () => {
-  const user = useSelector((state: RootState) => state.user);
-  const [values, setValues] = useState({ [FIELD_KEYS.EMAIL]: '', [FIELD_KEYS.PASSWORD]: '' });
-  const [validity, setValidity] = useState({ [FIELD_KEYS.EMAIL]: false, [FIELD_KEYS.PASSWORD]: false });
-  const [areValid, setValid] = useState(false);
-  const { email, password } = values;
-  const hasEmail: boolean = email !== '' || password !== '';
 
-  type ValueKeys = 'email' | 'password';
+  const tokenValidation = useCookiesTokenValidation();
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    // TODO: validate user
-  }
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { isSubmitting, errors }, // * to handle a error --> 'error'
+    watch
+  } = useForm<LoginFields>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const validateValues = useCallback((key: ValueKeys): boolean => {
-    const value = values[key];
+  const username = watch('username');
+  const password = watch('password');
+  const openToUpdateFields: string = username || password;
 
-    switch (key) {
-      case FIELD_KEYS.EMAIL:
-        return validateEmail(value);
-      case FIELD_KEYS.PASSWORD:
-        return validatePassword(value);
-      default:
-        throw new Error('Invalid field key');
+  const handleFormFilled = async (data: LoginFields) => {
+
+    if (Object.keys(errors).length > 0) return;
+
+    try {
+      await axios.post('http://localhost:8080/auth/login', {
+        username: data.username,
+        password: data.password
+      })
+        .then(res => res.data)
+        .then(data => {
+          Cookies.set("userJWT", data.token, { expires: 30 });
+        });
+
+      return <Navigate to={'/'} />
+    } catch (error) {
+      console.error(error);
     }
-  }, [values]);
+  }
 
   useEffect(() => {
-    const valuesProps = Object.keys(values) as ValueKeys[];
-    const newValidity = { ...validity };
+    try {
+      loginSchema.parse({ username, password });
+      clearErrors();
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        setError(`root.${e.name}`, e);
+      }
+    }
+  }, [username, password, setError, clearErrors])
 
-    valuesProps.forEach((prop) => {
-      newValidity[prop] = validateValues(prop);
-    });
-
-    const allValid = Object.values(newValidity).every(value => value);
-
-    setValid(allValid);
-    setValidity(newValidity);
-  }, [values, validateValues]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
-    setValues(prevValues => ({ ...prevValues, [id]: e.target.value }));
-  }
-
+  // TODO: Create error handler
+  // ! This showCase should actually be integrated with 'user' state
+  // ! in Redux Store. But React Redux <-> React-Router-Dom maybe have a problem.
+  // ! For now, I'll use [useJWTValidation] method.
+  // ! Notice that in this component RequireAuthToken isn't used becaused
+  // ! of this.
   return (
-    <ProtectedComponent showCase={user.id !== ''}>
+    <ProtectedComponent showCase={!tokenValidation.hasValidProperties()}>
       <AuthBackground>
         <div className="form-container">
-          <img src="logo.svg" alt="logo" className='logo' />
-          <form onSubmit={handleSubmit}>
+          <img src="..\..\..\public\logo.svg" alt="logo" className='logo' />
+          <form onSubmit={handleSubmit(handleFormFilled)}>
             <Input
-              id='email'
-              type='email'
-              placeholder='enter your e-mail'
-              label='E-mail'
-              handleChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'email')}
+              inputProps={{
+                id: 'username',
+                type: 'text',
+                placeholder: 'enter your username',
+                ...register('username')
+              }}
+
+              labelProps={{
+                children: 'Username'
+              }}
             />
 
-            {!hasEmail &&
+            {!openToUpdateFields &&
               <div className={`form-container`}>
                 <span>or sign up with</span>
-                <ButtonLoginSocial text='Google Account' img={{ src: 'GoogleLogo.svg' }} />
-                <ButtonLoginSocial text='Facebook Account' img={{ src: 'FacebookLogo.svg' }} className='fb-button' />
+                <ButtonLoginSocial text='Google Account' img={{ src: '..\\..\\..\\public\\GoogleLogo.svg' }} />
+                <ButtonLoginSocial text='Facebook Account' img={{ src: '..\\..\\..\\public\\FacebookLogo.svg' }} className='fb-button' />
               </div>
             }
 
-            {hasEmail &&
+            {openToUpdateFields &&
               <div className={`form-container`}>
                 <Input
-                  id='password'
-                  label='Password'
-                  placeholder='enter your password'
-                  type='password'
-                  handleChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'password')}
+                  inputProps={{
+                    id: 'password',
+                    placeholder: 'enter your password',
+                    type: 'password',
+                    ...register('password')
+                  }}
+
+                  labelProps={{
+                    children: 'Password'
+                  }}
                 />
-                <Button isFilled={areValid} animated={areValid}>
-                  Log In
+                <Button
+                  isFilled={Object.keys(errors).length === 0}
+                  animated
+                >
+                  {isSubmitting ? <>Loading...</> : <>Log In</>}
                 </Button>
               </div>
             }
 
           </form>
-          <p>don't have an account? <Link to='/signup'><span>sign in</span></Link></p>
+          <p>don't have an account? <Link to='/auth/signup'><span>sign in</span></Link></p>
         </div>
       </AuthBackground>
     </ProtectedComponent>

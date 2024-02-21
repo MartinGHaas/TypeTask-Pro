@@ -6,34 +6,18 @@ import './styles/global.scss';
 import Navbar from "./components/navbar/Navbar";
 import Info from "./components/info/Info";
 
-import Cookies from 'js-cookie';
-
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "./state/store";
-import { useEffect, useState } from "react";
-import { setUser } from "./state/user/userSlice";
+import RequireAuthToken from "./libs/authValidation/RequireAuthToken";
+import useUserValidation from "./libs/userValidation/useUserValidation";
 
 const App = () => {
-  const [isLoading, setLoading] = useState(true);
   const user = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const userJWT = Cookies.get('userJWT');
-    if (userJWT) {
-      const decodedUser = JSON.parse(atob(userJWT.split('.')[1]));
-      dispatch(setUser(decodedUser))
-    }
-    setLoading(false);
-  }, []);
-
-  if (isLoading) {
-    return null;
-  }
+  const useTokenValidation = useUserValidation();
 
   return (
-    <>
-      {user && user.id !== '' ?
+    <RequireAuthToken>
+      {useTokenValidation.validateTokenUser(user) ?
         <div className="page-container">
           <Navbar />
           <main>
@@ -41,9 +25,9 @@ const App = () => {
           </main>
           <Info />
         </div>
-        : <Navigate to='/login' />
+        : <Navigate to='/auth/login' />
       }
-    </>
+    </RequireAuthToken>
   )
 };
 

@@ -1,15 +1,14 @@
+import { ReactNode } from 'react';
 import './navItem.scss';
 
 type NavItemProps = {
-  src: string;
-  alt: string;
-  active?: boolean;
+  children: ReactNode
 }
 
-const NavItem = ({ src, alt, active }: NavItemProps) => {
+const NavItem = ({ children }: NavItemProps) => {
   return (
-    <div className={`nav-item ${active ? 'active-item' : ''}`}>
-      <img className='item-svg' src={src} alt={alt} />
+    <div className={'nav-item'}>
+      {children}
     </div>
   )
 }

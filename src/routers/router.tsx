@@ -10,8 +10,9 @@ import SignUp from '../pages/signup/SignUp';
 import Tasks from '../pages/tasks/Tasks';
 import Teams from '../pages/teams/Teams';
 import Config from '../pages/config/Config';
+import Auth from '@/Auth';
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
@@ -43,17 +44,21 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: '/login',
-    element: <Login />
-  },
-  {
-    path: '/signup',
-    element: <SignUp />
+    path: '/auth',
+    element: <Auth />,
+    children: [
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'signup',
+        element: <SignUp />
+      }
+    ]
   },
   {
     path: '/docs',
     element: <Docs />
   }
 ]);
-
-export default router;

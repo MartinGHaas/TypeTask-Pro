@@ -1,15 +1,19 @@
 import { Link, NavLink } from 'react-router-dom';
 import NavItem from '../navItem/NavItem';
 import './navbar.scss';
+import { TiCogOutline, TiFolderOpen, TiHome } from 'react-icons/ti';
+import { AiOutlineTeam } from 'react-icons/ai';
+import { HiOutlineClipboardDocumentList } from 'react-icons/hi2';
+import { FaRegBell } from 'react-icons/fa';
 
 const Navbar = () => {
   const pages = [
-    { path: '/', img: 'home-icon.svg' },
-    { path: '/projects', img: 'projects-icon.svg' },
-    { path: '/teams', img: 'teams-icon.svg' },
-    { path: '/tasks', img: 'tasks-icon.svg' },
-    { path: '/notifications', img: 'notifications-icon.svg' },
-    { path: '/config', img: 'config-icon.svg' },
+    { path: '/', icon: <TiHome /> },
+    { path: '/projects', icon: <TiFolderOpen /> },
+    { path: '/teams', icon: <AiOutlineTeam /> },
+    { path: '/tasks', icon: <HiOutlineClipboardDocumentList /> },
+    { path: '/notifications', icon: <FaRegBell /> },
+    { path: '/config', icon: <TiCogOutline /> },
   ]
 
   return (
@@ -20,7 +24,9 @@ const Navbar = () => {
       <nav>
         {pages.map(page => (
           <NavLink to={page.path} className={({ isActive }) => isActive ? 'active-item' : ''} caseSensitive>
-            <NavItem alt='' src={page.img} />
+            <NavItem>
+              {page.icon}
+            </NavItem>
           </NavLink>
         ))}
       </nav>
