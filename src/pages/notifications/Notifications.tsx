@@ -1,9 +1,13 @@
+import PageHeader from '@/components/pageHeader/PageHeader';
 import './notifications.scss';
 
 const Notifications = () => {
-  return(
+  return (
     <div className='notifications'>
-      notificatios
+      <PageHeader
+        pageTitle='Notifications'
+        description='See your recent activity'
+      />
     </div>
   )
 }

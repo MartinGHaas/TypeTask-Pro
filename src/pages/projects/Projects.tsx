@@ -1,9 +1,13 @@
+import PageHeader from '@/components/pageHeader/PageHeader';
 import './projects.scss';
 
 const Projects = () => {
-  return(
+  return (
     <div className='projects'>
-      projects
+      <PageHeader
+        pageTitle='Projects'
+        description='See your recent activity'
+      />
     </div>
   )
 }

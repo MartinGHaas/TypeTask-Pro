@@ -1,9 +1,13 @@
+import PageHeader from '@/components/pageHeader/PageHeader';
 import './config.scss';
 
 const Config = () => {
-  return(
+  return (
     <div className='config'>
-      config
+      <PageHeader
+        pageTitle='Config'
+        description='See your recent activity'
+      />
     </div>
   )
 }
