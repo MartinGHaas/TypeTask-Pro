@@ -1,27 +1,38 @@
-# React + TypeScript + Vite
+# TypeTaskPro's Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)
+![Saas](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+![ReactRouter](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 
-Currently, two official plugins are available:
+#### Why this project exists?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+I started this project to test my capabilities in React and  
+improve my knowledge in web programming.  
 
-## Expanding the ESLint configuration
+Now, I want to make it useful at least for me. I think this  
+project has 'future' and make people be more organized about
+their projects.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Docs Sumary
+   - [Installation Guide](#installation-guide)
+   - [Contributing](#contributing)
 
-- Configure the top-level `parserOptions` property like this:
+ ### Instalation Guide
+   1. Clone this repo with:
+   ```
+   git clone git@github.com:MartinGHaas/TypeTask-Pro.git
+   ```
+   2. Install this project's dependencies with:
+   ```
+   npm i
+   ```
+   3. Run this application's backend, available in [this repo.](https://github.com/MartinGHaas/TypeTaskPro-Backend)
+   4. Create your account and try this application.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+#### Notice that this application is in development and not deployed yet. When I finish this project I'll probabbly deploy on Vercel's cloud.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Contributing
+If you find any problems or want to suggest a new feature you  
+can open a Pull Request with a short explanation of your changes.
