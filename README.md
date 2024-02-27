@@ -12,14 +12,14 @@ I started this project to test my capabilities in React and
 improve my knowledge in web programming.  
 
 Now, I want to make it useful at least for me. I think this  
-project has 'future' and make people be more organized about
+project has 'future' and can help people be more organized about
 their projects.
 
-## Docs Sumary
+## Docs Summary
    - [Installation Guide](#installation-guide)
    - [Contributing](#contributing)
 
- ### Instalation Guide
+ ### Installation Guide
    1. Clone this repo with:
    ```
    git clone git@github.com:MartinGHaas/TypeTask-Pro.git
@@ -31,7 +31,7 @@ their projects.
    3. Run this application's backend, available in [this repo.](https://github.com/MartinGHaas/TypeTaskPro-Backend)
    4. Create your account and try this application.
 
-#### Notice that this application is in development and not deployed yet. When I finish this project I'll probabbly deploy on Vercel's cloud.
+#### Notice that this application is in development and not deployed yet. When I finish this project I'll probably deploy on Vercel's cloud.
 
 ### Contributing
 If you find any problems or want to suggest a new feature you  
